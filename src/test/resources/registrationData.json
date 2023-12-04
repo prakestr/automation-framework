@@ -1,0 +1,9 @@
+{
+  "gender": "Male",
+  "company": "ACME",
+  "password": "password123",
+  "confirmPassword": "password123",
+  "day": "15",
+  "month": "January",
+  "year": "2000"
+}
