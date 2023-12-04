@@ -2,17 +2,14 @@ pipeline {
     agent any
 
     stages {
-            stage('Start Selenium Standalone Chrome') {
-                steps {
-                    script {
-                        // Clean up any previous Docker containers that might be using the port
-                        sh 'docker rm -f $(docker ps -qa --filter "ancestor=selenium/standalone-chrome:latest") || true'
-
-                        // Start the Selenium Standalone Chrome container
-                        sh 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest'
-                    }
+        stage('Start Selenium Standalone Chrome') {
+            steps {
+                script {
+                    // Start the Selenium Standalone Chrome container
+                    bat 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest'
                 }
             }
+        }
 
         stage('Build and Test') {
             steps {
@@ -42,11 +39,12 @@ pipeline {
     }
 
     post {
-            always {
-                // Correct syntax to stop Docker containers on Windows
-                bat 'docker stop %docker ps -q --filter "ancestor=selenium/standalone-chrome:latest"%'
-                bat 'docker system prune -f'
-            }
+                always {
+                    // Correct syntax to stop Docker containers on Windows
+                    bat 'docker stop %docker ps -q --filter "ancestor=selenium/standalone-chrome:latest"%'
+                    bat 'docker system prune -f'
+                }
+        }
+
     }
 
-}
