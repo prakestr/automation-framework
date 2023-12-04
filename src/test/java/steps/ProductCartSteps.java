@@ -1,8 +1,6 @@
 package steps;
 
-import io.cucumber.java.After;
 import io.cucumber.java.en.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import pages.HomePage;

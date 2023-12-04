@@ -1,6 +1,5 @@
 package steps;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +9,6 @@ import utilities.ExcelDataReader;
 import utilities.WebDriverFactory;
 import com.github.javafaker.Faker;
 
-import utilities.ExcelDataReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
