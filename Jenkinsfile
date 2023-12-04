@@ -40,4 +40,7 @@ pipeline {
     post {
         always {
             // Clean up any stopped containers and unused images/networks/volumes
-            sh 'docker system prune -f
+            sh 'docker system prune -f'
+        }
+    }
+
