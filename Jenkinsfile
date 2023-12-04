@@ -5,29 +5,29 @@ pipeline {
         stage('Start Selenium Standalone Chrome') {
             steps {
                 script {
-                    // Start the Selenium Standalone Chrome container
-                    bat 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest'
+                    // Start the Selenium Standalone Chrome container and retrieve the container ID
+                    def containerId = bat(script: 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest', returnStdout: true).trim()
+                    echo "Started container with ID: ${containerId}"
+                    // Set the container ID as an environment variable to use in later stages
+                    env.SELENIUM_CONTAINER_ID = containerId
                 }
             }
         }
 
         stage('Build and Test') {
             steps {
-                // Replace 'sh' with 'bat' for Windows compatibility
                 bat 'mvn clean test'
             }
         }
 
         stage('Prepare Allure Results') {
             steps {
-                // Adjusted for Windows command line
                 bat 'if exist allure-results move allure-results target'
             }
         }
 
         stage('Generate and Publish Reports') {
             steps {
-                // Replace 'sh' with 'bat' for Windows compatibility
                 bat 'mvn allure:report'
                 publishHTML(target: [
                     reportDir: 'target/site/allure-maven-plugin',
@@ -39,12 +39,14 @@ pipeline {
     }
 
     post {
-                always {
-                    // Correct syntax to stop Docker containers on Windows
-                    bat 'docker stop %docker ps -q --filter "ancestor=selenium/standalone-chrome:latest"%'
-                    bat 'docker system prune -f'
-                }
+        always {
+            // Stop and remove the Selenium container using the stored container ID
+            if (env.SELENIUM_CONTAINER_ID) {
+                bat(script: "docker stop ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
+                bat(script: "docker rm ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
+            }
+            // Ensure any stopped containers are cleaned up regardless of ID
+            bat(script: "docker ps -a -q --filter 'ancestor=selenium/standalone-chrome:latest' | ForEach-Object -Process { docker stop $_; docker rm $_; }", returnStatus: true)
         }
-
     }
-
+}
