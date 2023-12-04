@@ -6,27 +6,29 @@ pipeline {
             steps {
                 script {
                     // Start the Selenium Standalone Chrome container
-                    def seleniumContainer = docker.image('selenium/standalone-chrome:latest').run('-p 4444:4444')
+                    bat 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest'
                 }
             }
         }
 
         stage('Build and Test') {
             steps {
-                sh 'mvn clean test'
+                // Replace 'sh' with 'bat' for Windows compatibility
+                bat 'mvn clean test'
             }
         }
 
         stage('Prepare Allure Results') {
             steps {
-                // Ensure allure-results directory exists before moving
-                sh 'if exist allure-results (move allure-results target)'
+                // Adjusted for Windows command line
+                bat 'if exist allure-results move allure-results target'
             }
         }
 
         stage('Generate and Publish Reports') {
             steps {
-                sh 'mvn allure:report'
+                // Replace 'sh' with 'bat' for Windows compatibility
+                bat 'mvn allure:report'
                 publishHTML(target: [
                     reportDir: 'target/site/allure-maven-plugin',
                     reportFiles: 'index.html',
@@ -38,11 +40,13 @@ pipeline {
 
     post {
         always {
-            // Stop the Selenium Standalone Chrome container
-            sh 'docker stop $(docker ps -q --filter ancestor=selenium/standalone-chrome:latest)'
+            // Adjusted to stop the container using Windows command line
+            // The command gets the container ID of the selenium/standalone-chrome container and stops it
+            bat 'docker stop $(docker ps -q --filter ancestor=selenium/standalone-chrome:latest)'
 
             // Clean up any stopped containers and unused images/networks/volumes
-            sh 'docker system prune -f'
+            // Replace 'sh' with 'bat' for Windows compatibility
+            bat 'docker system prune -af'
         }
     }
 }
