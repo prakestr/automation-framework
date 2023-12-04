@@ -14,7 +14,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 // Replace 'sh' with 'bat' for Windows compatibility
-                bat 'mvn clean test -Dbrowser=chrome -Dheadless=true'
+                bat 'mvn clean test'
             }
         }
 
