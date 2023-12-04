@@ -1,15 +1,18 @@
 pipeline {
     agent any
 
+    environment {
+        // Define the environment variable that will hold the container ID
+        CONTAINER_ID = ""
+    }
+
     stages {
         stage('Start Selenium Standalone Chrome') {
             steps {
                 script {
-                    // Start the Selenium Standalone Chrome container and retrieve the container ID
-                    def containerId = bat(script: 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest', returnStdout: true).trim()
-                    echo "Started container with ID: ${containerId}"
-                    // Set the container ID as an environment variable to use in later stages
-                    env.SELENIUM_CONTAINER_ID = containerId
+                    // Start the Selenium Standalone Chrome container and capture the container ID
+                    CONTAINER_ID = bat(script: 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest', returnStdout: true).trim()
+                    echo "Started Selenium container with ID: ${CONTAINER_ID}"
                 }
             }
         }
@@ -38,17 +41,14 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            script {
-                // Stop and remove the Selenium container using the stored container ID
-                if (env.SELENIUM_CONTAINER_ID) {
-                    bat(script: "docker stop ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
-                    bat(script: "docker rm ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
-                }
-                // Ensure any stopped containers are cleaned up regardless of ID
-                bat(script: "docker ps -a -q --filter 'ancestor=selenium/standalone-chrome:latest' | ForEach-Object -Process { docker stop $_; docker rm $_; }", returnStatus: true)
-            }
+     post {
+            always {
+                script {
+                    // Use the captured container ID to stop and remove the container
+                    if (CONTAINER_ID) {
+                        bat(script: "docker stop ${CONTAINER_ID}", returnStatus: true)
+                        bat(script: "docker rm ${CONTAINER_ID}", returnStatus: true)
+                    }
         }
     }
 }
