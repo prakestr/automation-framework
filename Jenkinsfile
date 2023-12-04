@@ -40,13 +40,15 @@ pipeline {
 
     post {
         always {
-            // Stop and remove the Selenium container using the stored container ID
-            if (env.SELENIUM_CONTAINER_ID) {
-                bat(script: "docker stop ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
-                bat(script: "docker rm ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
+            script {
+                // Stop and remove the Selenium container using the stored container ID
+                if (env.SELENIUM_CONTAINER_ID) {
+                    bat(script: "docker stop ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
+                    bat(script: "docker rm ${env.SELENIUM_CONTAINER_ID}", returnStatus: true)
+                }
+                // Ensure any stopped containers are cleaned up regardless of ID
+                bat(script: "docker ps -a -q --filter 'ancestor=selenium/standalone-chrome:latest' | ForEach-Object -Process { docker stop $_; docker rm $_; }", returnStatus: true)
             }
-            // Ensure any stopped containers are cleaned up regardless of ID
-            bat(script: "docker ps -a -q --filter 'ancestor=selenium/standalone-chrome:latest' | ForEach-Object -Process { docker stop $_; docker rm $_; }", returnStatus: true)
         }
     }
 }
