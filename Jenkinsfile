@@ -41,14 +41,15 @@ pipeline {
         }
     }
 
-     post {
-            always {
-                script {
-                    // Use the captured container ID to stop and remove the container
-                    if (CONTAINER_ID) {
-                        bat(script: "docker stop ${CONTAINER_ID}", returnStatus: true)
-                        bat(script: "docker rm ${CONTAINER_ID}", returnStatus: true)
-                    }
+    post {
+        always {
+            script {
+                // Use the captured container ID to stop and remove the container
+                if (CONTAINER_ID) {
+                    bat(script: "docker stop ${CONTAINER_ID}", returnStatus: true)
+                    bat(script: "docker rm ${CONTAINER_ID}", returnStatus: true)
+                }
+            }
         }
     }
 }
