@@ -3,32 +3,42 @@ package utilities;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WebDriverFactory {
-    private static ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    // Make driverThreadLocal final since it doesn't need to be modified after initialization
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
         if (driverThreadLocal.get() == null) {
             System.out.println("Instantiating a new driver instance");
             String browser = System.getProperty("browser", "chrome").toLowerCase();
+            boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
             WebDriver driver;
+
+            // Using enhanced switch statement
             switch (browser) {
-                case "firefox":
+                case "firefox" -> {
                     WebDriverManager.firefoxdriver().setup();
                     driver = new FirefoxDriver();
-                    break;
-                case "edge":
+                }
+                case "edge" -> {
                     WebDriverManager.edgedriver().setup();
                     driver = new EdgeDriver();
-                    break;
-                case "chrome":
-                default:
+                }
+                case "chrome" -> {
                     WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
-                    break;
+                    ChromeOptions options = new ChromeOptions();
+                    if (headless) {
+                        options.addArguments("--headless");
+                    }
+                    driver = new ChromeDriver(options);
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + browser);
             }
+
             driver.manage().window().maximize();
             driverThreadLocal.set(driver);
         }

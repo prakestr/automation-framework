@@ -14,7 +14,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 // Replace 'sh' with 'bat' for Windows compatibility
-                bat 'mvn clean test'
+                bat 'mvn clean test -Dbrowser=chrome -Dheadless=true'
             }
         }
 
@@ -40,13 +40,12 @@ pipeline {
 
     post {
         always {
-            // Adjusted to stop the container using Windows command line
-            // The command gets the container ID of the selenium/standalone-chrome container and stops it
-            bat 'docker stop $(docker ps -q --filter ancestor=selenium/standalone-chrome:latest)'
+            // Stop the Selenium Standalone Chrome container
+            bat "docker stop \$(docker ps -q --filter ancestor=selenium/standalone-chrome:latest)"
 
             // Clean up any stopped containers and unused images/networks/volumes
-            // Replace 'sh' with 'bat' for Windows compatibility
-            bat 'docker system prune -af'
+            bat "docker system prune -af"
         }
     }
+
 }
