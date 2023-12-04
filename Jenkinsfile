@@ -32,10 +32,14 @@ pipeline {
         stage('Generate and Publish Reports') {
             steps {
                 bat 'mvn allure:report'
-                publishHTML(target: [
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
                     reportDir: 'target/site/allure-maven-plugin',
                     reportFiles: 'index.html',
-                    reportName: 'Allure Report'
+                    reportName: 'Allure Report',
+                    reportTitles: 'The Allure Report'
                 ])
             }
         }
