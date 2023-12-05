@@ -9,9 +9,9 @@ pipeline {
         stage('Clean Up') {
             steps {
                 script {
-                    // The correct Windows CMD commands to stop and remove Docker containers
-                    bat(script: 'docker ps -q --filter "ancestor=selenium/standalone-chrome:latest" | % { docker stop $_ }', returnStatus: true)
-                    bat(script: 'docker ps -aq --filter "ancestor=selenium/standalone-chrome:latest" | % { docker rm $_ }', returnStatus: true)
+                    // Stop and remove any existing containers that might be using the 4444 port
+                    bat(script: 'docker ps -q --filter "ancestor=selenium/standalone-chrome:latest" | for /f %i in (\'more\') do docker stop %i', returnStatus: true)
+                    bat(script: 'docker ps -aq --filter "ancestor=selenium/standalone-chrome:latest" | for /f %i in (\'more\') do docker rm %i', returnStatus: true)
                 }
             }
         }
