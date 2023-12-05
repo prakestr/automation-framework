@@ -18,15 +18,19 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    // Run tests and ignore failures to allow the pipeline to continue
-                    def mvnResult = bat(script: 'mvn clean test -Dmaven.test.failure.ignore=true', returnStatus: true)
-                    // Set the build result based on the outcome of the Maven command
-                    if (mvnResult == 0) {
-                        currentBuild.result = 'SUCCESS'
-                    } else {
+                    // Run tests and capture the result
+                    def mvnResult = bat(script: 'mvn clean test', returnStatus: true)
+                    // If Maven result is not zero (which means there are test failures), mark the build as UNSTABLE
+                    if (mvnResult != 0) {
                         currentBuild.result = 'UNSTABLE'
                     }
                 }
+            }
+        }
+
+        stage('Results') {
+            steps {
+                junit '**/target/surefire-reports/*.xml'
             }
         }
 
@@ -63,4 +67,4 @@ pipeline {
             }
         }
     }
-}
+

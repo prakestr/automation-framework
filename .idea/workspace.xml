@@ -4,42 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12de61da-6a0a-4534-ad36-452d73cb6c43" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/hooks/CucumberHooks.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/CheckoutPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/HomePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/LoginPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/PageBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/ProductDetailsPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/RegistrationPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/SearchResultsPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/ShoppingCartPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/runner/TestRunner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/steps/CategoryListSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/steps/CommonStepDefinitions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/steps/ProductCartSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/steps/RegistrationSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/tests/TestBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/utilities/ExcelDataReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/utilities/WebDriverFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/Product_addition_to_cart.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/RegisterUser.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/VerifyManufacturers.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/registrationData.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/testdata.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testChrome.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testEdge.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testFirefox.xml" afterDir="false" />
+    <list default="true" id="12de61da-6a0a-4534-ad36-452d73cb6c43" name="Changes" comment="update screenshot for test failures">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +140,126 @@
       <option name="presentableId" value="Default" />
       <updated>1698420876680</updated>
     </task>
+    <task id="LOCAL-00001" summary="Jenkinsfile to include docker Selenium-Chrome">
+      <created>1701719441066</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1701719441066</updated>
+    </task>
+    <task id="LOCAL-00002" summary="correct Jenkinsfile post">
+      <created>1701719722838</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701719722838</updated>
+    </task>
+    <task id="LOCAL-00003" summary="more Jenkinsfile corrections">
+      <created>1701720120920</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701720120920</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update Jenkinsfile to use windows cmds not linux">
+      <created>1701721239373</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701721239373</updated>
+    </task>
+    <task id="LOCAL-00005" summary="configure headless in Jenkinsfile">
+      <created>1701722498232</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701722498232</updated>
+    </task>
+    <task id="LOCAL-00006" summary="remove headless in Jenkinsfile">
+      <created>1701723365315</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701723365315</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add cleanup in Jenkinsfile">
+      <created>1701723687457</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1701723687457</updated>
+    </task>
+    <task id="LOCAL-00008" summary="more cleanup corrections in Jenkinsfile">
+      <created>1701724326993</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1701724326993</updated>
+    </task>
+    <task id="LOCAL-00009" summary="cleanup more Jenkinsfile stuff">
+      <created>1701725271286</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701725271286</updated>
+    </task>
+    <task id="LOCAL-00010" summary="again more Jenkinsfile stuff">
+      <created>1701725534778</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701725534778</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add environment variable in Jenkinsfile">
+      <created>1701725860863</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701725860863</updated>
+    </task>
+    <task id="LOCAL-00012" summary="correct environment variable in Jenkinsfile">
+      <created>1701726226799</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1701726226799</updated>
+    </task>
+    <task id="LOCAL-00013" summary="added allure configuration in Jenkinsfile">
+      <created>1701728662744</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701728662744</updated>
+    </task>
+    <task id="LOCAL-00014" summary="update pom.xml configuration in Jenkinsfile">
+      <created>1701731032984</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1701731032984</updated>
+    </task>
+    <task id="LOCAL-00015" summary="cleanup and make it fail">
+      <created>1701733282563</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701733282563</updated>
+    </task>
+    <task id="LOCAL-00016" summary="add screenshot for test failures">
+      <created>1701735504074</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1701735504074</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update screenshot for test failures">
+      <created>1701736700194</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1701736700194</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,5 +272,25 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Jenkinsfile to include docker Selenium-Chrome" />
+    <MESSAGE value="correct Jenkinsfile post" />
+    <MESSAGE value="more Jenkinsfile corrections" />
+    <MESSAGE value="update Jenkinsfile to use windows cmds not linux" />
+    <MESSAGE value="configure headless in Jenkinsfile" />
+    <MESSAGE value="remove headless in Jenkinsfile" />
+    <MESSAGE value="add cleanup in Jenkinsfile" />
+    <MESSAGE value="more cleanup corrections in Jenkinsfile" />
+    <MESSAGE value="cleanup more Jenkinsfile stuff" />
+    <MESSAGE value="again more Jenkinsfile stuff" />
+    <MESSAGE value="add environment variable in Jenkinsfile" />
+    <MESSAGE value="correct environment variable in Jenkinsfile" />
+    <MESSAGE value="added allure configuration in Jenkinsfile" />
+    <MESSAGE value="update pom.xml configuration in Jenkinsfile" />
+    <MESSAGE value="cleanup and make it fail" />
+    <MESSAGE value="add screenshot for test failures" />
+    <MESSAGE value="update screenshot for test failures" />
+    <option name="LAST_COMMIT_MESSAGE" value="update screenshot for test failures" />
   </component>
 </project>
