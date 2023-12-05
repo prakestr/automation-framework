@@ -81,8 +81,6 @@ public class RegistrationSteps {
         );
     }
 
-
-
     @And("I click on Register button")
     public void i_click_on_button() {
         registrationPage.clickRegisterButton();

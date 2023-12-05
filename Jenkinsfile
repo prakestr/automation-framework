@@ -18,13 +18,18 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    def testResult = bat(script: 'mvn clean test -Dmaven.test.failure.ignore=true', returnStatus: true)
-                    if (testResult != 0) {
+                    // Run tests and ignore failures to allow the pipeline to continue
+                    def mvnResult = bat(script: 'mvn clean test -Dmaven.test.failure.ignore=true', returnStatus: true)
+                    // Set the build result based on the outcome of the Maven command
+                    if (mvnResult == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
                         currentBuild.result = 'UNSTABLE'
                     }
                 }
             }
         }
+
 
         stage('Prepare Allure Results') {
             steps {
