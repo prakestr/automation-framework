@@ -6,9 +6,20 @@ pipeline {
     }
 
     stages {
+        stage('Clean Up') {
+            steps {
+                script {
+                    // Stop and remove any existing containers that might be using the 4444 port
+                    bat(script: 'docker ps -q --filter "ancestor=selenium/standalone-chrome:latest" | ForEach { docker stop $_ }', returnStatus: true)
+                    bat(script: 'docker ps -aq --filter "ancestor=selenium/standalone-chrome:latest" | ForEach { docker rm $_ }', returnStatus: true)
+                }
+            }
+        }
+
         stage('Start Selenium Standalone Chrome') {
             steps {
                 script {
+                    // Now we can start a new Selenium container safely
                     CONTAINER_ID = bat(script: 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest', returnStdout: true).trim()
                     echo "Started Selenium container with ID: ${CONTAINER_ID}"
                 }
@@ -57,7 +68,7 @@ pipeline {
     post {
         always {
             script {
-                if (CONTAINER_ID) {
+                if (env.CONTAINER_ID) {
                     bat(script: "docker stop ${CONTAINER_ID}", returnStatus: true)
                     bat(script: "docker rm ${CONTAINER_ID}", returnStatus: true)
                 }
