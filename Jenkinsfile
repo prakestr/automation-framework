@@ -10,8 +10,8 @@ pipeline {
             steps {
                 script {
                     // Stop and remove any existing containers that might be using the 4444 port
-                    bat(script: 'docker ps -q --filter "ancestor=selenium/standalone-chrome:latest" | for /f %i in (\'more\') do docker stop %i', returnStatus: true)
-                    bat(script: 'docker ps -aq --filter "ancestor=selenium/standalone-chrome:latest" | for /f %i in (\'more\') do docker rm %i', returnStatus: true)
+                    bat(script: 'docker ps -q --filter "ancestor=selenium/standalone-chrome:latest" | for /f %%i in (\'more\') do docker stop %%i', returnStatus: true)
+                    bat(script: 'docker ps -aq --filter "ancestor=selenium/standalone-chrome:latest" | for /f %%i in (\'more\') do docker rm %%i', returnStatus: true)
                 }
             }
         }
@@ -66,12 +66,12 @@ pipeline {
     }
 
     post {
-        always {
-            script {
-                if (env.CONTAINER_ID) {
-                    bat(script: "docker stop ${CONTAINER_ID}", returnStatus: true)
-                    bat(script: "docker rm ${CONTAINER_ID}", returnStatus: true)
-                }
+            always {
+                script {
+                    if (env.CONTAINER_ID) {
+                        bat(script: "docker stop ${env.CONTAINER_ID}", returnStatus: true)
+                        bat(script: "docker rm ${env.CONTAINER_ID}", returnStatus: true)
+                    }
             }
         }
     }
