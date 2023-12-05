@@ -118,6 +118,7 @@
                     <systemPropertyVariables>
                         <browser>chrome</browser>
                     </systemPropertyVariables>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
 

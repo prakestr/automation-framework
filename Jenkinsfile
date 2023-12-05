@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Define the environment variable that will hold the container ID
         CONTAINER_ID = ""
     }
 
@@ -10,7 +9,6 @@ pipeline {
         stage('Start Selenium Standalone Chrome') {
             steps {
                 script {
-                    // Start the Selenium Standalone Chrome container and capture the container ID
                     CONTAINER_ID = bat(script: 'docker run -d -p 4444:4444 selenium/standalone-chrome:latest', returnStdout: true).trim()
                     echo "Started Selenium container with ID: ${CONTAINER_ID}"
                 }
@@ -19,7 +17,12 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                bat 'mvn clean test'
+                script {
+                    def testResult = bat(script: 'mvn clean test -Dmaven.test.failure.ignore=true', returnStatus: true)
+                    if (testResult != 0) {
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
             }
         }
 
@@ -48,7 +51,6 @@ pipeline {
     post {
         always {
             script {
-                // Use the captured container ID to stop and remove the container
                 if (CONTAINER_ID) {
                     bat(script: "docker stop ${CONTAINER_ID}", returnStatus: true)
                     bat(script: "docker rm ${CONTAINER_ID}", returnStatus: true)

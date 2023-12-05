@@ -13,12 +13,5 @@ public class TestBase {
         // Additional setup can go here
     }
 
-    // If you need to perform setup before each test instead of before the suite,
-    // you can use the following:
-    // @Parameters({"browser"})
-    // @BeforeTest(alwaysRun = true)
-    // public void setUpTest(String browser) {
-    //     System.setProperty("browser", browser);
-    //     // Additional setup for each test can go here
-    // }
+
 }
