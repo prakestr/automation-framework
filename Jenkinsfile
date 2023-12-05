@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        CONTAINER_ID = ""
+        CONTAINER_ID = ''
     }
 
     stages {
@@ -18,9 +18,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    // Run tests and capture the result
                     def mvnResult = bat(script: 'mvn clean test', returnStatus: true)
-                    // If Maven result is not zero (which means there are test failures), mark the build as UNSTABLE
                     if (mvnResult != 0) {
                         currentBuild.result = 'UNSTABLE'
                     }
@@ -34,10 +32,9 @@ pipeline {
             }
         }
 
-
         stage('Prepare Allure Results') {
             steps {
-                bat 'if exist allure-results move allure-results target'
+                bat 'if exist allure-results move allure-results target/'
             }
         }
 
@@ -67,4 +64,4 @@ pipeline {
             }
         }
     }
-
+}
