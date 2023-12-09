@@ -57,9 +57,10 @@ public class WebDriverFactory {
                 driverThreadLocal.remove();
             }
         } else {
-            System.out.println("Driver was not instantiated or already closed");
+            System.out.println("Driver was not active, so it was not closed.");
         }
     }
+
 
     public static boolean isDriverActive() {
         return driverThreadLocal.get() != null;

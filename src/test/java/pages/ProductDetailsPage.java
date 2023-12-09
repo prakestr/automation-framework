@@ -17,6 +17,10 @@ public class ProductDetailsPage extends PageBase {
     @FindBy(css = ".product-name h1")
     private WebElement productName;
 
+    @FindBy(linkText = "Add your review")
+    private WebElement addYourReviewLink;
+
+
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
     }
@@ -34,6 +38,20 @@ public class ProductDetailsPage extends PageBase {
         // Assuming the cart quantity is indicated by some number in the cartQuantity element
         waitForNonZeroCartQuantity();
     }
+
+    public boolean isProductDisplayedOnDetailsPage(String expectedProductName) {
+        // Wait for the product name element to be visible
+        wait.until(ExpectedConditions.visibilityOf(productName));
+        // Return true if the product name matches the expected name
+        return productName.getText().equalsIgnoreCase(expectedProductName);
+    }
+
+    public ReviewFormPage navigateToReviewForm() {
+        waitForElementToBeClickable(addYourReviewLink);
+        addYourReviewLink.click();
+        return new ReviewFormPage(driver);
+    }
+
 
     public void waitForNotificationBannerToAppear() {
         By notificationBannerLocator = By.id("bar-notification");

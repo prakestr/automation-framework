@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +11,11 @@ import org.openqa.selenium.support.ui.Select;
 public class RegistrationPage extends PageBase {
 
     // Locators
+    @FindBy(className = "login-button")
+    private WebElement loginButton;
+
+    @FindBy(linkText = "Log out")
+    private WebElement logoutLink;
     @FindBy(linkText = "Register")
     private WebElement registerLink;
 
@@ -49,11 +55,16 @@ public class RegistrationPage extends PageBase {
     @FindBy(id = "register-button")
     private WebElement registerButton;
 
+    @FindBy(className = "register-continue-button")
+    private WebElement continueButton;
+
+    @FindBy(className = "message-error")
+    private WebElement errorMessage;
+
     @FindBy(className = "result")
     private WebElement registrationResult;
 
     @FindBy(xpath = "//div[@class='page-title']/h1")
-
 
     private WebElement registerHeader;
 
@@ -76,9 +87,9 @@ public class RegistrationPage extends PageBase {
             String company,
             String password,
             String confirmPassword,
-            int day, // Changed to int
+            int day, // Continue to use int for day
             String month,
-            int year // Changed to int
+            int year // Continue to use int for year
     ) {
         if ("male".equalsIgnoreCase(gender)) {
             clickButton(genderMaleRadio);
@@ -90,20 +101,24 @@ public class RegistrationPage extends PageBase {
         setTextElementText(lastNameInput, lastName);
 
         // Handle the date of birth dropdowns with provided parameters
-        select = new Select(dateOfBirthDayDropdown);
-        select.selectByValue(String.valueOf(day)); // Convert int to String
-
-        select = new Select(dateOfBirthMonthDropdown);
-        select.selectByVisibleText(month);
-
-        select = new Select(dateOfBirthYearDropdown);
-        select.selectByValue(String.valueOf(year)); // Convert int to String
+        new Select(dateOfBirthDayDropdown).selectByValue(String.valueOf(day)); // Convert int day to String
+        new Select(dateOfBirthMonthDropdown).selectByVisibleText(month);
+        new Select(dateOfBirthYearDropdown).selectByValue(String.valueOf(year)); // Convert int year to String
 
         setTextElementText(emailInput, email);
         setTextElementText(companyInput, company);
         setTextElementText(passwordInput, password);
         setTextElementText(confirmPasswordInput, confirmPassword);
     }
+
+    public boolean isErrorMessageDisplayed() {
+        try {
+            return errorMessage.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
 
 
     public void submitRegistration() {
@@ -127,5 +142,27 @@ public class RegistrationPage extends PageBase {
         WebElement registerButton = driver.findElement(By.id("register-button"));
         // Click the button
         registerButton.click();
+    }
+
+    public void clickOnLinkByText(String linkText) {
+        WebElement link = driver.findElement(By.linkText(linkText));
+        clickButton(link);
+    }
+
+    public void clickLoginButton() {
+        clickButton(loginButton);
+    }
+
+    public void enterCredentials(String email, String password) {
+        setTextElementText(emailInput, email);
+        setTextElementText(passwordInput, password);
+    }
+
+    public boolean isLogoutLinkDisplayed() {
+        return logoutLink.isDisplayed();
+    }
+
+    public void clickContinueButton() {
+        clickButton(continueButton); // Utilize the clickButton method to interact with the Continue button
     }
 }

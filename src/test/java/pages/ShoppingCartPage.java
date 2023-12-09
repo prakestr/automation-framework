@@ -28,19 +28,14 @@ public class ShoppingCartPage extends PageBase {
     private By totalPrices = By.cssSelector("td.subtotal");
     private By removeButtons = By.cssSelector("td.remove-from-cart button");
 
-    // Constructor that accepts CustomWebDriverManager
-
     public void checkTermsOfService() {
-        waitForVisibilityOfElement(termsOfServiceCheckbox);
-        WebElement checkbox = driver.findElement(termsOfServiceCheckbox);
-        if (!checkbox.isSelected()) {
-            checkbox.click();
-        }
+        waitForElementToBeClickable(termsOfServiceCheckbox);
+        driver.findElement(termsOfServiceCheckbox).click();
     }
 
     public void clickCheckoutButton() {
-        waitForVisibilityOfElement(checkoutButton);
-        driver.findElement(checkoutButton).click();
+        waitForElementToBeClickable(checkoutButton);
+        moveToElementAndClick(checkoutButton);
     }
 
     public String getCartTitle() {
@@ -49,27 +44,21 @@ public class ShoppingCartPage extends PageBase {
     }
 
     public List<String> getAllProductPrices() {
-        waitForVisibilityOfElement(productPrices);
-        List<WebElement> elements = driver.findElements(productPrices);
-        return getTextFromElements(elements);
+        return getTextFromElements(productPrices);
     }
 
     public List<String> getAllProductQuantities() {
-        waitForVisibilityOfElement(productQuantities);
-        List<WebElement> elements = driver.findElements(productQuantities);
-        return getTextFromElements(elements);
+        return getTextFromElements(productQuantities);
     }
 
     public List<String> getAllTotalPrices() {
-        waitForVisibilityOfElement(totalPrices);
-        List<WebElement> elements = driver.findElements(totalPrices);
-        return getTextFromElements(elements);
+        return getTextFromElements(totalPrices);
     }
 
     public void clickRemoveButton(int index) {
-        waitForVisibilityOfElement(removeButtons);
         List<WebElement> elements = driver.findElements(removeButtons);
-        elements.get(index).click();
+        waitForElementToBeClickable(elements.get(index));
+        moveToElementAndClick(elements.get(index));
     }
 
     public boolean isProductInCartWithSku(String sku) {
@@ -81,7 +70,9 @@ public class ShoppingCartPage extends PageBase {
     }
 
     // Utility methods to get text from elements if needed
-    private List<String> getTextFromElements(List<WebElement> elements) {
+    private List<String> getTextFromElements(By locator) {
+        waitForVisibilityOfElement(locator);
+        List<WebElement> elements = driver.findElements(locator);
         return elements.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

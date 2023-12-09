@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -15,7 +14,6 @@ import java.time.Duration;
 public class PageBase {
     protected WebDriver driver;
     public JavascriptExecutor jse;
-    public Select select;
     public Actions actions;
     public WebDriverWait wait;
 
@@ -23,7 +21,7 @@ public class PageBase {
     public PageBase(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // You can adjust the timeout value
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         jse = (JavascriptExecutor) driver;
         actions = new Actions(driver);
     }
@@ -31,6 +29,16 @@ public class PageBase {
     protected static void clickButton(WebElement button) {
         button.click();
     }
+
+    public void clickOnLoginLink() {
+        By loginLinkLocator = By.cssSelector("a.ico-login");
+        waitForVisibilityOfElement(loginLinkLocator); // Wait for the login link to be visible
+        waitForElementToBeClickable(loginLinkLocator); // Additionally, wait for it to be clickable
+        WebElement loginLink = driver.findElement(loginLinkLocator);
+        loginLink.click();
+    }
+
+
 
     protected static void setTextElementText(WebElement textElement, String value) {
         textElement.sendKeys(value);
@@ -48,19 +56,24 @@ public class PageBase {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public void waitForVisibilityOfElement(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void waitForElementToBeClickable(By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    public void waitForElementToBeClickable(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
+
     public void moveToElementAndClick(By locator) {
         WebElement element = driver.findElement(locator);
         actions.moveToElement(element).click().perform();
     }
 
-
-    // Overloaded method to wait for a WebElement
-    public void waitForVisibilityOfElement(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
+    public void moveToElementAndClick(WebElement element) {
+        actions.moveToElement(element).click().perform();
     }
-
-    public void waitForElementToBeClickable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-
-}
 }

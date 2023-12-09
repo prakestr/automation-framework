@@ -16,6 +16,9 @@ public class HomePage extends PageBase {
         super(driver);
     }
 
+    @FindBy(xpath = "//div[@class='topic-block-title']/h2")
+    private WebElement welcomeMessage;
+
     @FindBy(id = "small-searchterms")
     private WebElement searchField;
 
@@ -57,6 +60,10 @@ public class HomePage extends PageBase {
     // Method to click on Computers menu item
     public void clickOnComputersMenuItem() {
         computersMenuItem.click();
+    }
+
+    public boolean isWelcomeMessageDisplayed() {
+        return welcomeMessage.getText().trim().equals("Welcome to our store");
     }
 
     // Method to navigate to Computers category page
