@@ -56,7 +56,7 @@ pipeline {
                     allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'target/site/allure-maven-plugin',
+                    reportDir: 'target/allure-report', // Make sure this matches the report directory specified in your pom.xml
                     reportFiles: 'index.html',
                     reportName: 'Allure Report',
                     reportTitles: 'The Allure Report'
@@ -66,12 +66,13 @@ pipeline {
     }
 
     post {
-            always {
-                script {
-                    if (env.CONTAINER_ID) {
-                        bat(script: "docker stop ${env.CONTAINER_ID}", returnStatus: true)
-                        bat(script: "docker rm ${env.CONTAINER_ID}", returnStatus: true)
-                    }
+        always {
+            script {
+                if (env.CONTAINER_ID) {
+                    bat(script: "docker stop ${env.CONTAINER_ID}", returnStatus: true)
+                    bat(script: "docker rm ${env.CONTAINER_ID}", returnStatus: true)
+                }
+                // Add any other cleanup steps necessary
             }
         }
     }
