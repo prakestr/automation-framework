@@ -1,9 +1,6 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -44,34 +41,51 @@ public class SearchResultsPage extends PageBase {
 
 
     public void clickOnProductWithLowestPrice() {
-        // Retry the operation to handle potential stale element references
-        retryingFindClick(By.cssSelector(".item-grid .product-item .product-title a"));
+        List<WebElement> productTitles = driver.findElements(By.cssSelector(".item-grid .product-item .product-title a"));
+        if (!productTitles.isEmpty()) {
+            WebElement firstProductTitle = productTitles.get(0);
+            scrollToElementAndClick(firstProductTitle); // Custom method to scroll and click
+        } else {
+            throw new IllegalStateException("No products found to select the lowest price.");
+        }
     }
 
-    // Method that retries finding and clicking on the element to avoid stale references
-    private void retryingFindClick(By by) {
-        final int retries = 5;
-        for (int i = 0; i < retries; i++) {
-            try {
-                List<WebElement> productTitles = driver.findElements(by);
-                if (!productTitles.isEmpty()) {
-                    WebElement firstProductTitle = productTitles.get(0);
-                    waitForElementToBeClickable(firstProductTitle); // Ensure the element is clickable
-                    firstProductTitle.click();
-                    return; // Click successful, exit method
-                }
-            } catch (StaleElementReferenceException e) {
-                // The element reference is stale, retry finding the element
-                System.out.println("Trying to recover from a stale element :" + e.getMessage());
-            }
-            // Wait a bit before retrying
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ignored) {
-            }
+    // Scrolls to the element and uses JavaScript to click
+    private void scrollToElementAndClick(WebElement element) {
+        waitForElementToBeClickable(element); // Wait for the element to be clickable
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        try {
+            element.click(); // Attempt to click normally
+        } catch (ElementClickInterceptedException e) {
+            // If normal click fails, use JavaScript to click
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
         }
-        throw new IllegalStateException("Could not click on the first product title after multiple retries.");
     }
+
+//    // Method that retries finding and clicking on the element to avoid stale references
+//    private void retryingFindClick(By by) {
+//        final int retries = 5;
+//        for (int i = 0; i < retries; i++) {
+//            try {
+//                List<WebElement> productTitles = driver.findElements(by);
+//                if (!productTitles.isEmpty()) {
+//                    WebElement firstProductTitle = productTitles.get(0);
+//                    waitForElementToBeClickable(firstProductTitle); // Ensure the element is clickable
+//                    firstProductTitle.click();
+//                    return; // Click successful, exit method
+//                }
+//            } catch (StaleElementReferenceException e) {
+//                // The element reference is stale, retry finding the element
+//                System.out.println("Trying to recover from a stale element :" + e.getMessage());
+//            }
+//            // Wait a bit before retrying
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException ignored) {
+//            }
+//        }
+//        throw new IllegalStateException("Could not click on the first product title after multiple retries.");
+//    }
 
     private List<Float> getPriceValues() {
         // Ensure the productPrices elements are visible before extracting text
@@ -91,35 +105,31 @@ public class SearchResultsPage extends PageBase {
         Select sortBy = new Select(sortByDropdown);
         sortBy.selectByValue("10"); // Assuming '10' is the value for 'Price: Low to High'
 
-        // Wait for the sort operation to reflect on the UI and assert the sorted order
         new WebDriverWait(driver, Duration.ofSeconds(30)).until((WebDriver d) -> {
             try {
-                List<WebElement> priceElements = d.findElements(By.cssSelector(".actual-price"));
-                List<String> priceStrings = priceElements.stream()
-                        .map(WebElement::getText)
-                        .map(text -> text.replace("$", "").replace(",", "").trim())
-                        .collect(Collectors.toList());
-
-                // Convert the string prices to floats for comparison
-                List<Float> priceValues = priceStrings.stream()
-                        .map(Float::parseFloat)
-                        .collect(Collectors.toList());
-
-                // Check if the prices are sorted
-                for (int i = 0; i < priceValues.size() - 1; i++) {
-                    if (priceValues.get(i) > priceValues.get(i + 1)) {
-                        return false; // Prices are not sorted, so wait
-                    }
-                }
-                return true; // Prices are sorted
+                return arePricesSorted(); // Refactored into a separate method
             } catch (StaleElementReferenceException e) {
-                // If StaleElementReferenceException is caught, the DOM has updated and the wait will try again.
-                return false;
+                return false; // If caught, the DOM has updated and the wait will retry.
             }
         });
     }
 
+    // Helper method to check if prices are sorted low to high
+    private boolean arePricesSorted() {
+        // Retrieve fresh references to the price elements
+        List<WebElement> priceElements = driver.findElements(By.cssSelector(".actual-price"));
+        List<Float> priceValues = priceElements.stream()
+                .map(WebElement::getText)
+                .map(text -> text.replace("$", "").replace(",", "").trim())
+                .map(Float::parseFloat)
+                .collect(Collectors.toList());
 
-
-
+        // Check if the prices are sorted
+        for (int i = 0; i < priceValues.size() - 1; i++) {
+            if (priceValues.get(i) > priceValues.get(i + 1)) {
+                return false; // Prices are not sorted
+            }
+        }
+        return true; // Prices are sorted
+    }
 }
