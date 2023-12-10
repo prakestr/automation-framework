@@ -7,7 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,26 +92,34 @@ public class SearchResultsPage extends PageBase {
         sortBy.selectByValue("10"); // Assuming '10' is the value for 'Price: Low to High'
 
         // Wait for the sort operation to reflect on the UI and assert the sorted order
-        wait.until(driver -> {
-            // Retrieve fresh references to the price elements
-            List<WebElement> priceElements = driver.findElements(By.cssSelector(".actual-price"));
+        new WebDriverWait(driver, Duration.ofSeconds(30)).until((WebDriver d) -> {
+            try {
+                List<WebElement> priceElements = d.findElements(By.cssSelector(".actual-price"));
+                List<String> priceStrings = priceElements.stream()
+                        .map(WebElement::getText)
+                        .map(text -> text.replace("$", "").replace(",", "").trim())
+                        .collect(Collectors.toList());
 
-            // Extract the price values and convert them to Floats
-            List<Float> priceValues = priceElements.stream()
-                    .map(WebElement::getText)
-                    .map(text -> text.replace("$", "").replace(",", "").trim())
-                    .map(Float::parseFloat)
-                    .collect(Collectors.toList());
+                // Convert the string prices to floats for comparison
+                List<Float> priceValues = priceStrings.stream()
+                        .map(Float::parseFloat)
+                        .collect(Collectors.toList());
 
-            // Check if the prices are sorted
-            for (int i = 0; i < priceValues.size() - 1; i++) {
-                if (priceValues.get(i) > priceValues.get(i + 1)) {
-                    return false; // Prices are not sorted, so wait
+                // Check if the prices are sorted
+                for (int i = 0; i < priceValues.size() - 1; i++) {
+                    if (priceValues.get(i) > priceValues.get(i + 1)) {
+                        return false; // Prices are not sorted, so wait
+                    }
                 }
+                return true; // Prices are sorted
+            } catch (StaleElementReferenceException e) {
+                // If StaleElementReferenceException is caught, the DOM has updated and the wait will try again.
+                return false;
             }
-            return true; // Prices are sorted
         });
     }
+
+
 
 
 }
