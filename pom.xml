@@ -12,6 +12,7 @@
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <allure.results.directory>${project.basedir}/allure-results</allure.results.directory>
     </properties>
 
     <dependencies>
@@ -129,6 +130,7 @@
                 <version>2.12.0</version>
                 <configuration>
                     <reportVersion>2.24.0</reportVersion>
+                    <resultsDirectory>${allure.results.directory}</resultsDirectory>
                 </configuration>
                 <executions>
                     <execution>
