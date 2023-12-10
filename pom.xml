@@ -131,21 +131,24 @@
                 <configuration>
                     <reportVersion>2.24.0</reportVersion>
                     <resultsDirectory>${allure.results.directory}</resultsDirectory>
+                    <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
                 </configuration>
                 <executions>
                     <execution>
                         <id>generate-allure-report</id>
-                        <phase>test</phase>
+                        <phase>post-integration-test</phase>
                         <goals>
-                            <goal>serve</goal>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- Add other plugins here if necessary -->
-
         </plugins>
     </build>
 
 </project>
+
+
+
+
+
