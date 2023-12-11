@@ -69,6 +69,12 @@ public class ShoppingCartPage extends PageBase {
         return productElements.stream().anyMatch(e -> e.getText().equals(productName));
     }
 
+    public void proceedToCheckoutAsGuest() {
+        checkTermsOfService();
+        clickCheckoutButton();
+        // Additional logic can be added here if there are more steps involved in guest checkout
+    }
+
     // Utility methods to get text from elements if needed
     private List<String> getTextFromElements(By locator) {
         waitForVisibilityOfElement(locator);

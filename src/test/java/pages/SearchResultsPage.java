@@ -62,30 +62,6 @@ public class SearchResultsPage extends PageBase {
         }
     }
 
-//    // Method that retries finding and clicking on the element to avoid stale references
-//    private void retryingFindClick(By by) {
-//        final int retries = 5;
-//        for (int i = 0; i < retries; i++) {
-//            try {
-//                List<WebElement> productTitles = driver.findElements(by);
-//                if (!productTitles.isEmpty()) {
-//                    WebElement firstProductTitle = productTitles.get(0);
-//                    waitForElementToBeClickable(firstProductTitle); // Ensure the element is clickable
-//                    firstProductTitle.click();
-//                    return; // Click successful, exit method
-//                }
-//            } catch (StaleElementReferenceException e) {
-//                // The element reference is stale, retry finding the element
-//                System.out.println("Trying to recover from a stale element :" + e.getMessage());
-//            }
-//            // Wait a bit before retrying
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException ignored) {
-//            }
-//        }
-//        throw new IllegalStateException("Could not click on the first product title after multiple retries.");
-//    }
 
     private List<Float> getPriceValues() {
         // Ensure the productPrices elements are visible before extracting text

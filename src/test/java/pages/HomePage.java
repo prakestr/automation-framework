@@ -28,6 +28,9 @@ public class HomePage extends PageBase {
     @FindBy(css = "a.ico-cart")
     private WebElement shoppingCartLink;
 
+    @FindBy(css = "ul.top-menu.notmobile > li:nth-child(1) > a[href='/computers']") // Updated to use CSS selector for more specificity
+    private WebElement computersCategory;
+
     @FindBy(linkText = "View all")
     private WebElement viewAllManufacturersLink;
 
@@ -117,7 +120,19 @@ public class HomePage extends PageBase {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    // Method to click on the 'Computers' category to ensure subcategories are displayed
+    public void clickOnComputersCategory() {
+        waitForElementToBeClickable(computersCategory);
+        computersCategory.click();
+    }
+
+    // Method to click on 'View all' link under 'Manufacturers' block
     public void clickOnViewAllManufacturers() {
+        // Ensure 'Computers' category is clicked first to display the 'View all' link
+        clickOnComputersCategory(); // This line ensures the 'Computers' menu is expanded
+
+        // Now wait for the 'View all' link to be clickable after expanding the 'Computers' category
+        waitForElementToBeClickable(viewAllManufacturersLink);
         viewAllManufacturersLink.click();
     }
     public boolean isOnManufacturersListPage() {
