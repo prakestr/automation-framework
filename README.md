@@ -1,49 +1,24 @@
 # E-Commerce Test Automation Suite
 
 ## Description
-
-This project is a comprehensive test automation suite for an e-commerce platform, using Java, Selenium, Cucumber, and TestNG to perform end-to-end testing.
+This suite automates web UI tests for an e-commerce application. Designed to validate critical workflows such as product selection, cart management, and checkout process, it ensures a seamless shopping experience for users.
 
 ## Technologies Used
-
-- Java
-- Selenium WebDriver
-- Cucumber
-- TestNG
-- Allure (for reporting)
+- **Java**: Core programming language for test scripts.
+- **Selenium WebDriver**: Used for browser interaction and execution of test cases.
+- **Cucumber**: BDD framework for readable test scenarios.
+- **TestNG**: Testing framework serving as the backbone for running tests with annotations.
+- **Allure**: Integrates with TestNG to provide detailed test execution reports.
 
 ## Installation
-
-Instructions on setting up the project locally.
+1. Clone the repository to your local machine.
+2. Ensure Java is installed and configured on your system.
+3. Install Maven for dependency management and build execution.
 
 ## Configuration
-
-Details on configuring the test suite.
+Configure the `testng.xml` file to include or exclude specific test groups. Set browser preferences and test environment details in the `config.properties` file.
 
 ## Running Tests
-
-How to run the tests, including any commands.
-
-## Test Structure
-
-Explanation of the test organization.
-
-## Reporting
-
-How reports are generated and accessed after test execution.
-
-## Contributing
-
-Guidelines for contributing to the project.
-
-## License
-
-Information about the project's license.
-
-## Contact
-
-How to contact the project maintainers.
-
-## Acknowledgments
-
-Credits to any third-party libraries or tools used.
+Execute the following command in the terminal:
+```bash
+mvn clean test
